@@ -28,22 +28,41 @@ define(['jquery'], function ($) {
     });
 
     api.on('ready', function () {
-        function YoutubePlayer() {
-            window.YT.Player.call(this);
+        function YoutubePlayer(container, options) {
+            options.events = {
+                onStateChange: function(){}
+            };
+            window.YT.Player.call(this, container, options);
         }
 
         YoutubePlayer.prototype = Object.create(window.YT.Player.prototype);
         YoutubePlayer.prototype.constructor = YoutubePlayer;
 
-        YoutubePlayer.prototype.on = function () {
-
+        YoutubePlayer.prototype.on = function (event, callback) {
+            this.addEventListener('onStateChange', function (e){
+                if(! e){
+                    return event;
+                }
+                if(e.data == YT.PlayerState[event.toUpperCase()] ){
+                    return callback();
+                }
+            });
         };
 
-        YoutubePlayer.prototype.off = function () {
+        YoutubePlayer.prototype.off = function (event) {
+            var player = this;
+            for(var i = 0; i < player.g.a.length; i++){
+                if(typeof player.g.a[i] == "function"){
+                    if(player.g.a[i]() == event){
+                        console.log(player.g.a)
 
+                    }
+                }
+            }
         };
 
         api.YoutubePlayer = YoutubePlayer;
+
     });
 
     api.on('ready', function () {
