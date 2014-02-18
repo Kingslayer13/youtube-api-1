@@ -30,6 +30,8 @@
                 console.log('Paused');
             });
 
+            player.trigger('paused'); // triggering pause on beginning
+
             return player;
         });
     });

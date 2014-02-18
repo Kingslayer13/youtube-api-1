@@ -64,7 +64,16 @@ define(['jquery'], function ($) {
 
         YoutubePlayer.prototype.trigger = function(event){
             var player = this;
-
+            for(var i = 0; i < player.g.a.length; i++){
+                if(typeof player.g.a[i] == "function"){
+                    if(player.g.a[i]() == event){
+                        var fakeEvent = {
+                            data: YT.PlayerState[event.toUpperCase()]
+                        };
+                        player.g.a[i](fakeEvent);
+                    }
+                }
+            }
         };
 
         api.YoutubePlayer = YoutubePlayer;
