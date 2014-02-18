@@ -54,11 +54,17 @@ define(['jquery'], function ($) {
             for(var i = 0; i < player.g.a.length; i++){
                 if(typeof player.g.a[i] == "function"){
                     if(player.g.a[i]() == event){
-                        console.log(player.g.a)
-
+                        player.g.a[i] = function(){
+                            return;
+                        };
                     }
                 }
             }
+        };
+
+        YoutubePlayer.prototype.trigger = function(event){
+            var player = this;
+
         };
 
         api.YoutubePlayer = YoutubePlayer;

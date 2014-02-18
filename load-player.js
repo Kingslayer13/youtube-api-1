@@ -16,17 +16,18 @@
                 }
             });
 
-            player.on('playing', function(e){
-                console.log('event is appear');
+            player.on('playing', function(e){ //event on playing
+                console.log('Playing');
             });
 
+            player.off('playing'); // now previous function is not working
 
-            player.on('playing', function(e){
-                console.log('lol');
+            player.on('playing', function(e){  //event on playing
+                console.log('Playing again');
             });
 
-            player.on('PAUSED', function(e){
-                console.log('arr');
+            player.on('paused', function(e){ //event on pause
+                console.log('Paused');
             });
 
             return player;
