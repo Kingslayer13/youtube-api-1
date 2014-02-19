@@ -29,9 +29,6 @@ define(['jquery'], function ($) {
 
     api.on('ready', function () {
         function YoutubePlayer(container, options) {
-            options.events = {
-                onStateChange: function(){}
-            };
             window.YT.Player.call(this, container, options);
         }
 
