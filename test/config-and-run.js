@@ -28,8 +28,10 @@ tests = tests.map(function(test){
 
 require (['mocha'], function(mocha){
     mocha.setup('bdd');
+
+    require (tests, function(){
+        mocha.run()
+    });
 });
 
-require (tests, function(){
-    mocha.run()
-});
+
