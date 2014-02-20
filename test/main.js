@@ -17,7 +17,7 @@ define (['chai', 'youtube-api', 'jquery'], function(chai, api, $){
         });
 
         it('should be "iframe" element on the page ', function(){
-            expect($('iframe').get(0).tagName.toLowerCase()).to.be.equal('iframe');
+            expect($('iframe').length).to.be.equal(1);
         });
     });
 
@@ -53,10 +53,10 @@ define (['chai', 'youtube-api', 'jquery'], function(chai, api, $){
             player.trigger('paused');
 
             expect(eventTriggered).to.be.true;
-            eventTriggered = false;
         });
 
         it('should not react on pause event', function(){
+            eventTriggered = false;
 
             player.on('playing', function(e){ //event on pause
                 eventTriggered = true;

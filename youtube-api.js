@@ -28,8 +28,8 @@ define(['jquery'], function ($) {
     });
 
     api.on('ready', function () {
-        function YoutubePlayer(container, options) {
-            window.YT.Player.call(this, container, options);
+        function YoutubePlayer() {
+            window.YT.Player.apply(this, arguments);
         }
 
         YoutubePlayer.prototype = Object.create(window.YT.Player.prototype);
@@ -37,38 +37,30 @@ define(['jquery'], function ($) {
 
         YoutubePlayer.prototype.on = function (event, callback) {
             this.addEventListener('onStateChange', function (e){
-                if(! e){
-                    return event;
-                }
-                if(e.data == YT.PlayerState[event.toUpperCase()] ){
-                    return callback();
-                }
+                if (! e) return event;
+                if (e.data == YT.PlayerState[event.toUpperCase()] ) return callback();
             });
         };
 
         YoutubePlayer.prototype.off = function (event) {
             var player = this;
-            for(var i = 0; i < player.g.a.length; i++){
-                if(typeof player.g.a[i] == "function"){
-                    if(player.g.a[i]() == event){
-                        player.g.a[i] = function(){
-                            return;
-                        };
-                    }
+            for (var i = 0; i < player.g.a.length; i++){
+                if (typeof player.g.a[i] == "function" && player.g.a[i]() == event){
+                    player.g.a[i] = function(){
+                        return;
+                    };
                 }
             }
         };
 
         YoutubePlayer.prototype.trigger = function(event){
             var player = this;
-            for(var i = 0; i < player.g.a.length; i++){
-                if(typeof player.g.a[i] == "function"){
-                    if(player.g.a[i]() == event){
-                        var fakeEvent = {
-                            data: YT.PlayerState[event.toUpperCase()]
-                        };
-                        player.g.a[i](fakeEvent);
-                    }
+            for (var i = 0; i < player.g.a.length; i++){
+                if (typeof player.g.a[i] == "function" && player.g.a[i]() == event){
+                    var fakeEvent = {
+                        data: YT.PlayerState[event.toUpperCase()]
+                    };
+                    player.g.a[i](fakeEvent);
                 }
             }
         };
